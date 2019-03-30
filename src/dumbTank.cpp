@@ -15,7 +15,7 @@ void DumbTank::reset()
 
 void DumbTank::move()
 {
-	if(forward)
+	if(forwards)
 	{
 		goForward();
 		turretGoRight();

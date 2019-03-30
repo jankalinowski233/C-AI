@@ -76,6 +76,7 @@
     <ClInclude Include="include\playerTank.h" />
     <ClInclude Include="include\position.h" />
     <ClInclude Include="include\shell.h" />
+    <ClInclude Include="include\SmartTank.h" />
     <ClInclude Include="include\tank.h" />
   </ItemGroup>
   <ItemGroup>
@@ -87,6 +88,7 @@
     <ClCompile Include="src\obstacle.cpp" />
     <ClCompile Include="src\playerTank.cpp" />
     <ClCompile Include="src\shell.cpp" />
+    <ClCompile Include="src\SmartTank.cpp" />
     <ClCompile Include="src\tank.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
