@@ -39,6 +39,8 @@ public:
 	bool isFiring();
 	void score(int thisScore, int enemyScore);
 
+	void DeleteBase(Position p);
+
 	void RotateTurretToTarget();
 
 	void SetMoveTarget();

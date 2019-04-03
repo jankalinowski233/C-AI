@@ -319,6 +319,8 @@ void Game::play()// Play the game for one timestep
 				shells.erase(it2);
 				blueBuildings.erase(it);
 				redScore += 10;
+				//delete base from a vector stored in NPC
+				npc.DeleteBase(Position((it->bb.getX1() + it->bb.getX2()) / 2.0f, (it->bb.getY1() + it->bb.getY2()) / 2.0f));
 				npc.score(redScore, blueScore);
 				stop = true;
 			}

@@ -21,7 +21,6 @@ void SmartTank::move()
 		break;
 	}
 		
-
 	case MOVE:
 	{
 		RotationAngle();
@@ -86,8 +85,6 @@ void SmartTank::collided()
 
 void SmartTank::markEnemy(Position p)
 {
-	tankSpottedFlag = true;
-
 }
 
 void SmartTank::markBase(Position p)
@@ -140,6 +137,21 @@ void SmartTank::score(int thisScore, int enemyScore)
 {
 }
 
+void SmartTank::DeleteBase(Position p)
+{
+	for (auto it = eBaseLocations.begin(); it != eBaseLocations.end(); ++it)
+	{
+		sf::Vector2f temp = sf::Vector2f(p.getX(), p.getY());
+		if (temp == *it)
+		{
+			eBaseLocations.erase(it);
+			selectTarget();
+			return;
+		}
+
+	}
+}
+
 void SmartTank::RotateTurretToTarget()
 {
 	float deltaX = eBaseCurrentTarget.x - getX();
@@ -151,21 +163,27 @@ void SmartTank::RotateTurretToTarget()
 	float turretAngle = angleInDegree;
 	turretAngle -= turretTh;
 
-	if (turretAngle < 2.5 && turretAngle > -2.5)
+	if (turretAngle < 0)
+	{
+		turretAngle += 360;
+	}
+
+	std::cout << turretAngle << std::endl;
+
+	if (turretAngle < 2.5 || turretAngle > 357.5)
 	{
 		stopTurret();
 		state = FIRE;
+		std::cout << "FIRE" << std::endl;
 	}
-	else if (turretAngle < -2.5)
+	else if (turretAngle > 180)
 	{
 		turretGoLeft();
 	}
-	else if (turretAngle > 2.5)
+	else if (turretAngle < 180)
 	{
 		turretGoRight();
 	}
-
-		
 }
 
 void SmartTank::SetMoveTarget()
