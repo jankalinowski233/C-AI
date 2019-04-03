@@ -13,6 +13,7 @@ private:
 	bool fBaseSpottedFlag = false;
 	bool lineOfSightFlag = false;
 	bool firingFlag = false;
+	int currentState;
 
 	std::vector<sf::Vector2f> eBaseLocations;
 	sf::Vector2f eBaseCurrentTarget;
@@ -31,7 +32,6 @@ public:
 	void move();
 	void reset();
 	void collided();
-	void markEBase(Position p);
 	void markEnemy(Position p);
 	void markBase(Position p);
 	void markShell(Position p);
