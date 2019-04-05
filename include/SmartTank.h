@@ -42,6 +42,7 @@ public:
 	void DeleteBase(Position p);
 
 	void RotateTurretToTarget();
+	void ResetTurretDir();
 
 	void SetMoveTarget();
 	void RotationAngle();

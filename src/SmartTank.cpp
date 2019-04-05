@@ -24,6 +24,7 @@ void SmartTank::move()
 	case MOVE:
 	{
 		RotationAngle();
+		ResetTurretDir();
 		if (angle < 5 || angle > 359)
 		{
 			goForward();
@@ -65,7 +66,7 @@ void SmartTank::move()
 
 	case FIRE:
 	{
-		std::cout << "FIRE" << std::endl;
+		firingFlag = true;
 		break;
 	}
 		
@@ -145,15 +146,16 @@ void SmartTank::DeleteBase(Position p)
 		if (temp == *it)
 		{
 			eBaseLocations.erase(it);
-			selectTarget();
-			return;
+			break;
 		}
 
 	}
+	selectTarget();
 }
 
 void SmartTank::RotateTurretToTarget()
 {
+	firingFlag = false;
 	float deltaX = eBaseCurrentTarget.x - getX();
 	float deltaY = eBaseCurrentTarget.y - getY();
 
@@ -168,9 +170,7 @@ void SmartTank::RotateTurretToTarget()
 		turretAngle += 360;
 	}
 
-	std::cout << turretAngle << std::endl;
-
-	if (turretAngle < 2.5 || turretAngle > 357.5)
+	if (turretAngle < 0.5f || turretAngle > 359.5f)
 	{
 		stopTurret();
 		state = FIRE;
@@ -186,8 +186,28 @@ void SmartTank::RotateTurretToTarget()
 	}
 }
 
+void SmartTank::ResetTurretDir()
+{
+	float dir = turretTh;
+	float currentTankOrientation = pos.getTh();
+
+	if (dir > (-1 + currentTankOrientation) && dir < (1+ currentTankOrientation))
+	{
+		stopTurret();
+	}
+	else if (dir < currentTankOrientation)
+	{
+		turretGoRight();
+	}
+	else if (dir > currentTankOrientation)
+	{
+		turretGoLeft();
+	}
+}
+
 void SmartTank::SetMoveTarget()
 {
+	firingFlag = false;
 	state = MOVE;
 	float x = (float)(rand() % 780 + 10);
 	float y = (float)(rand() % 580 + 10);
@@ -223,6 +243,7 @@ void SmartTank::RotationAngle()
 
 void SmartTank::selectTarget()
 {
+	std::cout << "reselecting" << std::endl;
 	float dis = 10000;
 	float tempDis = 0;
 	float deltaX;
@@ -246,6 +267,7 @@ void SmartTank::selectTarget()
 
 	if (eBaseLocations.size() == 0)
 	{
-		//reset state
+		firingFlag = false;
+		state = MOVE;
 	}
 }

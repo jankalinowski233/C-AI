@@ -317,10 +317,10 @@ void Game::play()// Play the game for one timestep
 			if(it->bb.collision(it2->bb) && (it2->couldSeeWhenFired(it->bb) || it->isVisible()))
 			{
 				shells.erase(it2);
-				blueBuildings.erase(it);
-				redScore += 10;
 				//delete base from a vector stored in NPC
 				npc.DeleteBase(Position((it->bb.getX1() + it->bb.getX2()) / 2.0f, (it->bb.getY1() + it->bb.getY2()) / 2.0f));
+				blueBuildings.erase(it);
+				redScore += 10;
 				npc.score(redScore, blueScore);
 				stop = true;
 			}
