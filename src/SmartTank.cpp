@@ -63,10 +63,10 @@ void SmartTank::move()
 		break;
 	}
 		
-
 	case FIRE:
 	{
 		firingFlag = true;
+		tankSpottedFlag = false;
 		break;
 	}
 		
@@ -86,6 +86,14 @@ void SmartTank::collided()
 
 void SmartTank::markEnemy(Position p)
 {
+	if (tankSpottedFlag == false)
+	{
+		clearMovement();
+		eBaseCurrentTarget = sf::Vector2f(p.getX(), p.getY());
+		state = AIM;
+		tankSpottedFlag = true;
+	}
+	
 }
 
 void SmartTank::markBase(Position p)
@@ -151,6 +159,16 @@ void SmartTank::DeleteBase(Position p)
 
 	}
 	selectTarget();
+}
+
+void SmartTank::DemarkEnemy()
+{
+	if (tankSpottedFlag == true)
+	{
+		firingFlag = false;
+		selectTarget();
+		tankSpottedFlag = false;
+	}
 }
 
 void SmartTank::RotateTurretToTarget()

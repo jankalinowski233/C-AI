@@ -40,6 +40,7 @@ public:
 	void score(int thisScore, int enemyScore);
 
 	void DeleteBase(Position p);
+	void DemarkEnemy();
 
 	void RotateTurretToTarget();
 	void ResetTurretDir();
