@@ -249,8 +249,8 @@ void Game::play()// Play the game for one timestep
 	  if(npc.canSee(it->bb) && !it->isNpc()) npc.markShell(Position((it->bb.getX1() + it->bb.getX2()) / 2.0f, (it->bb.getY1() + it->bb.getY2()) / 2.0f));
     }
 	if(npc.canSee(player.bb)) npc.markEnemy(Position((player.bb.getX1() + player.bb.getX2()) / 2.0f, (player.bb.getY1() + player.bb.getY2()) / 2.0f ));
-	else npc.DemarkEnemy(); //enemy has left the view
-
+	else npc.DemarkEnemy(); //player has left the NPC's view
+	
 	// Move shells
 	for (list<Shell>::iterator it = shells.begin(); it != shells.end(); ++it){it->move();}
 
@@ -357,6 +357,8 @@ void Game::play()// Play the game for one timestep
 		{
 			shells.erase(it2);
 			resetPlayer();
+			//Player's been hit
+			npc.DemarkEnemy();
 			redScore += 25;
 			npc.score(redScore, blueScore);
 			stop = true;

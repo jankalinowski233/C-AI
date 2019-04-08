@@ -12,7 +12,8 @@ Obstacle::Obstacle(float x1, float y1, float x2, float y2, sf::Color c) // Const
 
 	block.setSize(sf::Vector2f(x2-x1,y2-y1));
 	block.setFillColor(c);
-	block.setPosition(x1,y1);
+	block.setPosition((x1 + x2) / 2.f, (y1 + y2) / 2.f); 
+	block.setOrigin((x2-x1) / 2.f, (y2-y1) / 2.f);
 
 	visible = false;
 	debugMode = false;

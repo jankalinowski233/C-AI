@@ -9,11 +9,15 @@ private:
 	bool forwards;
 
 	bool tankSpottedFlag = false;
+	bool scanFlag = false;
+	bool scanCheckpoint = false;
 	bool eBaseSpottedFlag = false;
 	bool fBaseSpottedFlag = false;
 	bool lineOfSightFlag = false;
 	bool firingFlag = false;
-	int currentState;
+
+	float startPoint;
+	float checkpoint;
 
 	std::vector<sf::Vector2f> eBaseLocations;
 	sf::Vector2f eBaseCurrentTarget;
@@ -46,6 +50,7 @@ public:
 	void ResetTurretDir();
 
 	void SetMoveTarget();
+	void ScanForTarget();
 	void RotationAngle();
 
 	void selectTarget();

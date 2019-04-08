@@ -45,8 +45,14 @@ void SmartTank::move()
 
 		if (m < distance)
 		{
-			SetMoveTarget();
+			state = ROTATE_TURRET;
 		}
+		break;
+	}
+
+	case ROTATE_TURRET:
+	{
+		ScanForTarget();
 		break;
 	}
 		
@@ -81,7 +87,11 @@ void SmartTank::reset()
 
 void SmartTank::collided()
 {
-	SetMoveTarget();
+	if (eBaseLocations.size() == 0)
+	{
+		SetMoveTarget();
+	}
+	
 }
 
 void SmartTank::markEnemy(Position p)
@@ -102,6 +112,7 @@ void SmartTank::markBase(Position p)
 
 void SmartTank::markShell(Position p)
 {
+	
 }
 
 void SmartTank::markTarget(Position p)
@@ -115,7 +126,6 @@ void SmartTank::markTarget(Position p)
 		{
 			match = true;
 		}
-
 	}
 	
 	if (match == false)
@@ -125,12 +135,8 @@ void SmartTank::markTarget(Position p)
 		eBaseSpottedFlag = true;
 		clearMovement();
 
-		float deltaX = getX() - p.getX();
-		float deltaY = getY() - p.getY();
-
-		float angleInDegree = atan2(deltaY, deltaX) * 180 / PI; //gets the angle of the player tank in relation to the enemy 
-		//turretAngle = angleInDegree + 180;
-		//std::cout << "Target spotted at (" << p.getX() << ", " << p.getY() << ")\n";
+		float deltaX = p.getX() - getX();
+		float deltaY = p.getY() - getY(); 
 
 		state = TARGET_FOUND;
 	}
@@ -158,7 +164,11 @@ void SmartTank::DeleteBase(Position p)
 		}
 
 	}
-	selectTarget();
+
+	if (tankSpottedFlag == false)
+	{
+		selectTarget();
+	}
 }
 
 void SmartTank::DemarkEnemy()
@@ -183,16 +193,22 @@ void SmartTank::RotateTurretToTarget()
 	float turretAngle = angleInDegree;
 	turretAngle -= turretTh;
 
-	if (turretAngle < 0)
+	while (turretAngle < 0.f || turretAngle > 360.f)
 	{
-		turretAngle += 360;
+		if (turretAngle < 0.f)
+		{
+			turretAngle += 360.f;
+		}
+		else if (turretAngle > 360.f)
+		{
+			turretAngle -= 360.f;
+		}
 	}
 
 	if (turretAngle < 0.5f || turretAngle > 359.5f)
 	{
 		stopTurret();
 		state = FIRE;
-		std::cout << "FIRE" << std::endl;
 	}
 	else if (turretAngle > 180)
 	{
@@ -236,6 +252,45 @@ void SmartTank::SetMoveTarget()
 	RotationAngle();
 }
 
+void SmartTank::ScanForTarget()
+{
+	clearMovement();
+	float currentRot = turretTh;
+
+	if (scanFlag == false)
+	{
+		startPoint = currentRot;
+		checkpoint = startPoint + 180.f;
+		if (checkpoint > 360.f)
+		{
+			checkpoint -= 360.f;
+		}
+		scanFlag = true;
+	}
+	else
+	{
+		turretGoRight();
+		if (scanCheckpoint == false)
+		{
+			if (currentRot > checkpoint - 1.f && currentRot < checkpoint + 1.f)
+			{
+				scanCheckpoint = true;
+			}
+		}
+		else 
+		{
+			if (currentRot > startPoint - 1.f && currentRot < startPoint + 1.f)
+			{
+				scanFlag = false;
+				scanCheckpoint = false;
+				stopTurret();
+				SetMoveTarget();
+			}
+		}
+	}
+
+}
+
 void SmartTank::RotationAngle()
 {
 	sf::Vector2f tempMovePoint = movePoint;
@@ -252,18 +307,17 @@ void SmartTank::RotationAngle()
 	angle = 90.f + RAD2DEG(angle);
 	angle += tankAngle;
 
-	if (angle > 360)
+	if (angle > 360.f)
 	{
-		angle -= 360;
+		angle -= 360.f;
 	}
 
 }
 
 void SmartTank::selectTarget()
 {
-	std::cout << "reselecting" << std::endl;
-	float dis = 10000;
-	float tempDis = 0;
+	float dis = 10000.f;
+	float tempDis = 0.f;
 	float deltaX;
 	float deltaY;
 
@@ -279,8 +333,10 @@ void SmartTank::selectTarget()
 			dis = tempDis;
 			eBaseCurrentTarget = eBaseLocations[i];
 		}
+		std::cout << eBaseLocations[i].x << " " << eBaseLocations[i].y << std::endl;
+		
 	}
-
+	std::cout << std::endl;
 	state = AIM;
 
 	if (eBaseLocations.size() == 0)
