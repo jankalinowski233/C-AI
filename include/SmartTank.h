@@ -1,7 +1,8 @@
 #pragma once
 
 #include "aitank.h"
-
+#include "Node.h"
+#include "Map.h"
 
 class SmartTank : public AITank
 {
@@ -15,6 +16,7 @@ private:
 	bool fBaseSpottedFlag = false;
 	bool lineOfSightFlag = false;
 	bool firingFlag = false;
+	bool movementTargetFound = false;
 
 	float startPoint;
 	float checkpoint;
@@ -23,11 +25,14 @@ private:
 	sf::Vector2f eBaseCurrentTarget;
 
 	sf::Vector2f movePoint;
+	float distance = 5.f;
 	float angle;
 
 	enum TankState { IDLE, MOVE, ROTATE_TURRET, ROTATE_TANK, TARGET_FOUND, AIM, FIRE } state;
 
-	int buildingCount = 10;
+	std::list<Node> path;
+	Node* current;
+	Node* goal;
 
 public:
 	SmartTank();
@@ -50,8 +55,13 @@ public:
 	void ResetTurretDir();
 
 	void SetMoveTarget();
+	void SetCurrentPos();
 	void ScanForTarget();
 	void RotationAngle();
 
 	void selectTarget();
+
+	Node *n;
+	Map *m;
+
 };

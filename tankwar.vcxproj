@@ -72,6 +72,8 @@
     <ClInclude Include="include\boundingBox.h" />
     <ClInclude Include="include\DumbTank.h" />
     <ClInclude Include="include\game.h" />
+    <ClInclude Include="include\Map.h" />
+    <ClInclude Include="include\Node.h" />
     <ClInclude Include="include\obstacle.h" />
     <ClInclude Include="include\playerTank.h" />
     <ClInclude Include="include\position.h" />
@@ -85,6 +87,8 @@
     <ClCompile Include="src\DumbTank.cpp" />
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Map.cpp" />
+    <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\obstacle.cpp" />
     <ClCompile Include="src\playerTank.cpp" />
     <ClCompile Include="src\shell.cpp" />

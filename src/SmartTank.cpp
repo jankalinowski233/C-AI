@@ -3,12 +3,13 @@
 
 SmartTank::SmartTank()
 {
+	m = new Map();
 	state = IDLE;
-	SetMoveTarget();
 }
 
 SmartTank::~SmartTank()
 {
+	delete m;
 }
 
 void SmartTank::move()
@@ -18,6 +19,7 @@ void SmartTank::move()
 	{
 	case IDLE:
 	{
+		SetMoveTarget();
 		break;
 	}
 		
@@ -38,14 +40,22 @@ void SmartTank::move()
 			goRight();
 		}
 
-		float distance = 5.f;
-		sf::Vector2f tempVec = movePoint - sf::Vector2f(pos.getX(), pos.getY());
+		sf::Vector2f tempVec = sf::Vector2f(path.front().getXPos(), path.front().getYPos()) - sf::Vector2f(pos.getX(), pos.getY());
 
 		float m = sqrt(tempVec.x * tempVec.x + tempVec.y * tempVec.y);
 
 		if (m < distance)
 		{
-			state = ROTATE_TURRET;
+			if (path.size() == 1)
+			{
+				state = ROTATE_TURRET;
+				path.clear();
+			}
+			else
+			{
+				path.pop_front();
+				clearMovement();
+			}
 		}
 		break;
 	}
@@ -241,15 +251,49 @@ void SmartTank::ResetTurretDir()
 
 void SmartTank::SetMoveTarget()
 {
-	firingFlag = false;
-	state = MOVE;
-	float x = (float)(rand() % 780 + 10);
-	float y = (float)(rand() % 580 + 10);
-	//float th = (float)(rand() % 359);
+	//float x = (float)(rand() % 780 + 10);
+	//float y = (float)(rand() % 580 + 10);
+	////float th = (float)(rand() % 359);
 
-	movePoint = sf::Vector2f(x, y);
-	std::cout << "Moving to: " << movePoint.x << " " << movePoint.y << std::endl;
+	//movePoint = sf::Vector2f(x, y);
+	//std::cout << "Moving to: " << movePoint.x << " " << movePoint.y << std::endl;
+
+	firingFlag = false;
+	movementTargetFound = false;
+	SetCurrentPos();
+
+	while (movementTargetFound == false)
+	{
+		int randomX = rand() % 16 + 3;
+		int randomY = rand() % 13 + 3;
+		if (m->mapGrid[randomX][randomY]->isPath() == true)
+		{
+			movementTargetFound = m->Astar(path, *current, *m->mapGrid[randomX][randomY]);
+		}
+	}
+
+	state = MOVE;
 	RotationAngle();
+}
+
+void SmartTank::SetCurrentPos()
+{
+	const int xwidth = 780;
+	const int xheight = 570;
+	float x = getX() - 17.5f;
+	float y = getY() - 17.5f;
+	int nodeSize = xwidth / 26;
+	int mx = (x / 35);
+	int my = (y / 35);
+
+	for (int i = 0; i < 19; i++) {
+		for (int j = 0; j < 26; j++) {
+			m->mapGrid[i][j]->setCurrent(false);
+		}
+	}
+	m->mapGrid[my][mx]->setCurrent(true);
+
+	current = m->mapGrid[my][mx];
 }
 
 void SmartTank::ScanForTarget()
@@ -293,7 +337,7 @@ void SmartTank::ScanForTarget()
 
 void SmartTank::RotationAngle()
 {
-	sf::Vector2f tempMovePoint = movePoint;
+	sf::Vector2f tempMovePoint = sf::Vector2f(path.front().getXPos(), path.front().getYPos());
 	sf::Vector2f tempTankPos = sf::Vector2f(pos.getX(), pos.getY());
 
 	sf::Vector2f length = tempMovePoint - tempTankPos;

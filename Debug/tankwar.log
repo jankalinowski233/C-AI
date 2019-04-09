@@ -1,3 +1,32 @@
-﻿  SmartTank.cpp
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(324): warning C4018: '<': signed/unsigned mismatch
+﻿  game.cpp
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(39): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(40): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(41): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(42): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(43): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(44): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(55): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(56): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(57): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(58): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(69): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(70): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(71): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(72): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(85): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(86): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(87): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(88): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(89): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(90): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(515): warning C4474: 'sprintf_s' : too many arguments passed for format string
+  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(515): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(522): warning C4474: 'sprintf_s' : too many arguments passed for format string
+  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(522): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(527): warning C4474: 'sprintf_s' : too many arguments passed for format string
+  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(527): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(532): warning C4474: 'sprintf_s' : too many arguments passed for format string
+  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(532): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(502): warning C4996: 'sf::Text::setColor': was declared deprecated
+  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\sfml-2.4.1\include\sfml\graphics\text.hpp(177): note: see declaration of 'sf::Text::setColor'
   tankwar.vcxproj -> C:\Users\hyperbook\Desktop\Studies\2nd Year\2nd term\AI\CW\Debug\tankwar.exe
