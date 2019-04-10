@@ -99,6 +99,7 @@ void SmartTank::collided()
 {
 	if (eBaseLocations.size() == 0)
 	{
+		std::cout << "hit building" << std::endl;
 		SetMoveTarget();
 	}
 	
@@ -118,11 +119,29 @@ void SmartTank::markEnemy(Position p)
 
 void SmartTank::markBase(Position p)
 {
+	bool match = false;
+
+	for (auto it = fBaseLocations.begin(); it != fBaseLocations.end(); ++it)
+	{
+		sf::Vector2f temp = sf::Vector2f(p.getX(), p.getY());
+		if (temp == *it)
+		{
+			match = true;
+		}
+	}
+
+	if (match == false)
+	{
+		fBaseLocations.push_back(sf::Vector2f(p.getX(), p.getY()));
+
+		m->notPath(p.getX(), p.getY());
+		SetCurrentPos();
+		m->updatePath(path, *current);
+	}
 }
 
 void SmartTank::markShell(Position p)
 {
-	
 }
 
 void SmartTank::markTarget(Position p)
@@ -141,6 +160,10 @@ void SmartTank::markTarget(Position p)
 	if (match == false)
 	{
 		eBaseLocations.push_back(sf::Vector2f(p.getX(), p.getY()));
+
+		m->notPath(p.getX(), p.getY());
+		SetCurrentPos();
+		m->updatePath(path, *current);
 
 		eBaseSpottedFlag = true;
 		clearMovement();
@@ -170,15 +193,31 @@ void SmartTank::DeleteBase(Position p)
 		if (temp == *it)
 		{
 			eBaseLocations.erase(it);
+			updateWalls(p);
+
+			if (tankSpottedFlag == false)
+			{
+				selectTarget();
+			}
+
 			break;
 		}
 
 	}
 
-	if (tankSpottedFlag == false)
+	for (auto it2 = fBaseLocations.begin(); it2 != fBaseLocations.end(); ++it2)
 	{
-		selectTarget();
+		sf::Vector2f temp = sf::Vector2f(p.getX(), p.getY());
+		if (temp == *it2)
+		{
+			fBaseLocations.erase(it2);
+			updateWalls(p);
+
+			break;
+		}
 	}
+
+
 }
 
 void SmartTank::DemarkEnemy()
@@ -251,16 +290,11 @@ void SmartTank::ResetTurretDir()
 
 void SmartTank::SetMoveTarget()
 {
-	//float x = (float)(rand() % 780 + 10);
-	//float y = (float)(rand() % 580 + 10);
-	////float th = (float)(rand() % 359);
-
-	//movePoint = sf::Vector2f(x, y);
-	//std::cout << "Moving to: " << movePoint.x << " " << movePoint.y << std::endl;
-
 	firingFlag = false;
 	movementTargetFound = false;
 	SetCurrentPos();
+	path.clear();
+	std::cout << "commencing a*" << std::endl;
 
 	while (movementTargetFound == false)
 	{
@@ -272,6 +306,7 @@ void SmartTank::SetMoveTarget()
 		}
 	}
 
+	std::cout << "completed a*" << std::endl;
 	state = MOVE;
 	RotationAngle();
 }
@@ -283,8 +318,8 @@ void SmartTank::SetCurrentPos()
 	float x = getX() - 17.5f;
 	float y = getY() - 17.5f;
 	int nodeSize = xwidth / 26;
-	int mx = (x / 35);
-	int my = (y / 35);
+	int mx = (x / nodeSize);
+	int my = (y / nodeSize);
 
 	for (int i = 0; i < 19; i++) {
 		for (int j = 0; j < 26; j++) {
@@ -337,25 +372,31 @@ void SmartTank::ScanForTarget()
 
 void SmartTank::RotationAngle()
 {
-	sf::Vector2f tempMovePoint = sf::Vector2f(path.front().getXPos(), path.front().getYPos());
-	sf::Vector2f tempTankPos = sf::Vector2f(pos.getX(), pos.getY());
-
-	sf::Vector2f length = tempMovePoint - tempTankPos;
-
-	float magnitude = sqrt(length.x * length.x + length.y * length.y);
-	float tankAngle = pos.getTh();
-	
-	sf::Vector2f direction = length / magnitude;
-
-	angle = atan2f(-direction.x, -direction.y);
-	angle = 90.f + RAD2DEG(angle);
-	angle += tankAngle;
-
-	if (angle > 360.f)
+	if (path.size() > 0)
 	{
-		angle -= 360.f;
-	}
+		sf::Vector2f tempMovePoint = sf::Vector2f(path.front().getXPos(), path.front().getYPos());
+		sf::Vector2f tempTankPos = sf::Vector2f(pos.getX(), pos.getY());
 
+		sf::Vector2f length = tempMovePoint - tempTankPos;
+
+		float magnitude = sqrt(length.x * length.x + length.y * length.y);
+		float tankAngle = pos.getTh();
+
+		sf::Vector2f direction = length / magnitude;
+
+		angle = atan2f(-direction.x, -direction.y);
+		angle = 90.f + RAD2DEG(angle);
+		angle += tankAngle;
+
+		if (angle > 360.f)
+		{
+			angle -= 360.f;
+		}
+	}
+	else
+	{
+		std::cout << "has no path" << std::endl;
+	}
 }
 
 void SmartTank::selectTarget()
@@ -386,6 +427,28 @@ void SmartTank::selectTarget()
 	if (eBaseLocations.size() == 0)
 	{
 		firingFlag = false;
-		state = MOVE;
+		if (!path.empty())
+		{
+			state = MOVE;
+		}
+		else
+		{
+			SetMoveTarget();
+		}
+	}
+}
+
+void SmartTank::updateWalls(Position p)
+{
+	m->setPath(p.getX(), p.getY());
+
+	for (auto it = eBaseLocations.begin(); it != eBaseLocations.end(); ++it)
+	{
+		m->notPath(it->x, it->y);
+	}
+
+	for (auto it2 = fBaseLocations.begin(); it2 != fBaseLocations.end(); ++it2)
+	{
+		m->notPath(it2->x, it2->y);
 	}
 }

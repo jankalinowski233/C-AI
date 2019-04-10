@@ -22,6 +22,7 @@ private:
 	float checkpoint;
 
 	std::vector<sf::Vector2f> eBaseLocations;
+	std::vector<sf::Vector2f> fBaseLocations;
 	sf::Vector2f eBaseCurrentTarget;
 
 	sf::Vector2f movePoint;
@@ -60,6 +61,8 @@ public:
 	void RotationAngle();
 
 	void selectTarget();
+
+	void updateWalls(Position p);
 
 	Node *n;
 	Map *m;

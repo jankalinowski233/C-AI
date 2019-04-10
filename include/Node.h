@@ -28,6 +28,7 @@ private:
 	sf::RectangleShape shape;
 
 public:
+	Node();
 	Node(int x, int y, int xSize, int ySize, int r, int col);
 	int getXPos();
 	int getYPos();
@@ -40,6 +41,7 @@ public:
 	bool isCurrent();
 	bool isPath();
 	bool lowerScore(const Node n) const;
+	void resetColour();
 	void setG(float newG);
 	void setParent(int newParent);
 	void setPath(bool newPath);

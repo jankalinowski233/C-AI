@@ -1,5 +1,9 @@
 #include "..\include\Node.h"
 
+Node::Node()
+{
+}
+
 Node::Node(int x, int y, int xSize, int ySize, int r, int col)
 {
 	posX = x;
@@ -88,6 +92,11 @@ bool Node::lowerScore(const Node n) const
 	return f < n.f;
 }
 
+void Node::resetColour()
+{
+	shape.setFillColor(sf::Color(255, 255, 255, 50));
+}
+
 void Node::setWall()
 {
 	path = false;
@@ -137,7 +146,7 @@ void Node::score(int goalX, int goalY)
 	// Calculate F score
 	float dx, dy;
 
-	g = parent + 1.0f; // G is parent's G + 1
+	//g = parent + 1.0f; // G is parent's G + 1
 	dx = goalX - getXPos();// distance on $x$ axis from current node to goal node;
 	dy = goalY - getYPos();// distance on $y$ axis from current node to goal node;
 	h = sqrt((dx*dx) + (dy*dy)); // H is the Euclidean distance to the goal

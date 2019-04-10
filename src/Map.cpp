@@ -18,8 +18,8 @@ void Map::notPath(int x, int y)
 	{
 		for (int j = 0; j < columns; j++)
 		{
-			if (x < (mapGrid[i][j]->getXPos() - width / 2) + width && x + 50 > mapGrid[i][j]->getXPos() - width / 2 &&
-				y < (mapGrid[i][j]->getYPos() - height / 2) + height && 50 + y > mapGrid[i][j]->getYPos() - height / 2)
+			if (x - 30 < (mapGrid[i][j]->getXPos() - width / 2) + width && x + 30 > mapGrid[i][j]->getXPos() - width / 2 &&
+				y - 30 < (mapGrid[i][j]->getYPos() - height / 2) + height && y + 30 > mapGrid[i][j]->getYPos() - height / 2)
 			{
 				mapGrid[i][j]->setWall();
 			}
@@ -33,10 +33,52 @@ void Map::setPath(int x, int y)
 	{
 		for (int j = 0; j < columns; j++)
 		{
-			if (x < (mapGrid[i][j]->getXPos() - width / 2) + width && x + 50 > mapGrid[i][j]->getXPos() - width / 2 &&
-				y < (mapGrid[i][j]->getYPos() - height / 2) + height && 50 + y > mapGrid[i][j]->getYPos() - height / 2)
+			if (x - 30 < (mapGrid[i][j]->getXPos() - width / 2) + width && x + 30 > mapGrid[i][j]->getXPos() - width / 2 &&
+				y - 30 < (mapGrid[i][j]->getYPos() - height / 2) + height && y + 30 > mapGrid[i][j]->getYPos() - height / 2)
 			{
 				mapGrid[i][j]->setPath();
+			}
+		}
+	}
+}
+
+void Map::clearVisual()
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < columns; j++)
+		{
+			if (mapGrid[i][j]->isPath() == true)
+			{
+				mapGrid[i][j]->resetColour();
+			}
+		}
+	}
+}
+
+void Map::updatePath(std::list<Node>& path, Node curr)
+{
+	if (!path.empty())
+	{
+		if (mapGrid[path.back().getRow()][path.back().getColumn()]->isPath() == true)
+		{
+			Node s = curr;
+			Node g = path.back();
+			path.clear();
+			Astar(path, s, g);
+		}
+
+		else
+		{
+			bool movementTargetFound = false;
+			while (movementTargetFound == false)
+			{
+				int randomX = rand() % 16 + 3;
+				int randomY = rand() % 13 + 3;
+				if (mapGrid[randomX][randomY]->isPath() == true)
+				{
+					movementTargetFound = Astar(path, curr, *mapGrid[randomX][randomY]);
+				}
 			}
 		}
 	}
@@ -55,6 +97,7 @@ void Map::draw(sf::RenderTarget & target) const
 
 bool Map::Astar(std::list<Node>& path, Node s, Node g)
 {
+	clearVisual();
 	std::list<Node> openNodes; //list to be explored
 	std::list<Node> closedNodes; //list already explored
 	closedNodes.empty();
@@ -168,7 +211,7 @@ std::vector<Node*> Map::getNeighbour(Node * n)
 		else
 		{
 			neighbours[j]->setG(n->getG() + cost);
-			neighbours[j]->setParent(n->getParent());
+			//neighbours[j]->setParent(n->getParent());
 		}
 	}
 

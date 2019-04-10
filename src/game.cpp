@@ -36,12 +36,12 @@ Game::Game() // Constructor
 	redBuildings.push_back(Obstacle(dx,dy+40.f,dx+20.f,dy+60.f,sf::Color(170,60,60)));
 	redBuildings.push_back(Obstacle(dx+20.f,dy+40.f,dx+40.f,dy+60.f,sf::Color(170,40,40)));
 
-	npc.m->notPath(dx, dy);
-	npc.m->notPath(dx + 20, dy);
-	npc.m->notPath(dx, dy + 20);
-	npc.m->notPath(dx + 20, dy + 20);
-	npc.m->notPath(dx, dy + 40);
-	npc.m->notPath(dx + 20, dy + 40);
+	//npc.m->notPath(dx, dy);
+	//npc.m->notPath(dx + 20, dy);
+	//npc.m->notPath(dx, dy + 20);
+	//npc.m->notPath(dx + 20, dy + 20);
+	//npc.m->notPath(dx, dy + 40);
+	//npc.m->notPath(dx + 20, dy + 40);
 
 	// Bottom right
 	dx = (float) (rand() % 340 + 400);
@@ -52,10 +52,10 @@ Game::Game() // Constructor
 	redBuildings.push_back(Obstacle(dx,dy+20.f,dx+20.f,dy+40.f,sf::Color(170,40,40)));
 	redBuildings.push_back(Obstacle(dx+20.f,dy+20.f,dx+40.f,dy+40.f,sf::Color(170,60,60)));
 
-	npc.m->notPath(dx, dy);
-	npc.m->notPath(dx + 20, dy);
-	npc.m->notPath(dx, dy + 20);
-	npc.m->notPath(dx + 20, dy + 20);
+	//npc.m->notPath(dx, dy);
+	//npc.m->notPath(dx + 20, dy);
+	//npc.m->notPath(dx, dy + 20);
+	//npc.m->notPath(dx + 20, dy + 20);
 
 	// Top left
 	dx = (float) (rand() % 340 + 10);
@@ -66,10 +66,10 @@ Game::Game() // Constructor
 	blueBuildings.push_back(Obstacle(dx,dy+20,dx+20,dy+40,sf::Color(40,40,170)));
 	blueBuildings.push_back(Obstacle(dx+20,dy+20,dx+40,dy+40,sf::Color(60,60,170)));
 
-	npc.m->notPath(dx, dy);
-	npc.m->notPath(dx + 20, dy);
-	npc.m->notPath(dx, dy + 20);
-	npc.m->notPath(dx + 20, dy + 20);
+	//npc.m->notPath(dx, dy);
+	//npc.m->notPath(dx + 20, dy);
+	//npc.m->notPath(dx, dy + 20);
+	//npc.m->notPath(dx + 20, dy + 20);
 
 	// Bottom left
 	dx = (float) (rand() % 340 + 10);
@@ -82,12 +82,12 @@ Game::Game() // Constructor
 	blueBuildings.push_back(Obstacle(dx,dy+40,dx+20,dy+60,sf::Color(60,60,170)));
 	blueBuildings.push_back(Obstacle(dx+20,dy+40,dx+40,dy+60,sf::Color(40,40,170)));
 
-	npc.m->notPath(dx, dy);
-	npc.m->notPath(dx + 20, dy);
-	npc.m->notPath(dx, dy + 20);
-	npc.m->notPath(dx + 20, dy + 20);
-	npc.m->notPath(dx, dy + 40);
-	npc.m->notPath(dx + 20, dy + 40);
+	//npc.m->notPath(dx, dy);
+	//npc.m->notPath(dx + 20, dy);
+	//npc.m->notPath(dx, dy + 20);
+	//npc.m->notPath(dx + 20, dy + 20);
+	//npc.m->notPath(dx, dy + 40);
+	//npc.m->notPath(dx + 20, dy + 40);
 
 	resetNpc();
 	resetPlayer();
@@ -276,7 +276,10 @@ void Game::play()// Play the game for one timestep
 	else npc.DemarkEnemy(); //player has left the NPC's view
 	
 	// Move shells
-	for (list<Shell>::iterator it = shells.begin(); it != shells.end(); ++it){it->move();}
+	for (list<Shell>::iterator it = shells.begin(); it != shells.end(); ++it)
+	{
+		it->move();
+	}
 
 	// Check if shells have hit anything
 
@@ -287,6 +290,7 @@ void Game::play()// Play the game for one timestep
 	    {
 		  if(it->bb.collision(it2->bb))
 		  {
+			  std::cout << "hit edge" << std::endl;
 			shells.erase(it2);
 			break;
 		  }
@@ -297,11 +301,13 @@ void Game::play()// Play the game for one timestep
 	{
 		if(fabs(it2->getY()) > 1000)
 		{
+			std::cout << "hit edge" << std::endl;
 		shells.erase(it2);
 		break;
 		}
 		if(fabs(it2->getX()) > 1200)
 		{
+			std::cout << "hit edge" << std::endl;
 		shells.erase(it2);
 		break;
 		}
@@ -320,6 +326,8 @@ void Game::play()// Play the game for one timestep
 			{
 				//reset previously occupied field to be available to walk on
 				//npc.m->setPath(it->bb.getX1(), it->bb.getY1());
+				npc.DeleteBase(Position((it->bb.getX1() + it->bb.getX2()) / 2.0f, (it->bb.getY1() + it->bb.getY2()) / 2.0f));
+				std::cout << "hit red building" << std::endl;
 				shells.erase(it2);
 				redBuildings.erase(it);
 				blueScore += 10;
@@ -345,6 +353,7 @@ void Game::play()// Play the game for one timestep
 			{
 				//reset previously occupied field to be available to walk on
 				//npc.m->setPath(it->bb.getX1(), it->bb.getY1());
+				std::cout << "hit blue building" << std::endl;
 				shells.erase(it2);
 				//delete base from a vector stored in NPC
 				npc.DeleteBase(Position((it->bb.getX1() + it->bb.getX2()) / 2.0f, (it->bb.getY1() + it->bb.getY2()) / 2.0f));
@@ -366,6 +375,7 @@ void Game::play()// Play the game for one timestep
 	{
 		if(it2->couldSeeWhenFired(npc.bb) && npc.bb.collision(it2->bb))
 		{
+			std::cout << "hit red tank" << std::endl;
 			shells.erase(it2);
 			resetNpc();
 			blueScore += 25;
@@ -383,6 +393,7 @@ void Game::play()// Play the game for one timestep
 	{
 		if(it2->couldSeeWhenFired(player.bb) && player.bb.collision(it2->bb))
 		{
+			std::cout << "hit blue tank" << std::endl;
 			shells.erase(it2);
 			resetPlayer();
 			//Player's been hit
