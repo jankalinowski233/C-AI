@@ -61,8 +61,10 @@ public:
 	void RotationAngle();
 
 	void selectTarget();
+	bool OutOfAmmo();
 
 	void updateWalls(Position p);
+	void updateWalls(sf::Vector2f pos);
 
 	Node *n;
 	Map *m;

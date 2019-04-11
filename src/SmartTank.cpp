@@ -19,12 +19,21 @@ void SmartTank::move()
 	{
 	case IDLE:
 	{
+		clearMovement();
+		if (!path.empty())
+		{
+			path.clear();
+		}
 		SetMoveTarget();
 		break;
 	}
 		
 	case MOVE:
 	{
+		if (path.empty())
+		{
+			SetMoveTarget();
+		}
 		RotationAngle();
 		ResetTurretDir();
 		if (angle < 5 || angle > 359)
@@ -81,8 +90,46 @@ void SmartTank::move()
 		
 	case FIRE:
 	{
-		firingFlag = true;
-		tankSpottedFlag = false;
+		if (OutOfAmmo() == false)
+		{
+			float deltaX = eBaseCurrentTarget.x - getX();
+			float deltaY = eBaseCurrentTarget.y - getY();
+
+			float angleInDegree = atan2(deltaY, deltaX); //gets the angle of the player tank in relation to the enemy 
+			angleInDegree = RAD2DEG(angleInDegree);
+
+			float turretAngle = angleInDegree;
+			turretAngle -= turretTh;
+
+			while (turretAngle < 0.f || turretAngle > 360.f)
+			{
+				if (turretAngle < 0.f)
+				{
+					turretAngle += 360.f;
+				}
+				else if (turretAngle > 360.f)
+				{
+					turretAngle -= 360.f;
+				}
+			}
+
+			if (turretAngle < 1.f || turretAngle > 359.f)
+			{
+				stopTurret();
+				firingFlag = true;
+			}
+			else
+			{
+				firingFlag = false;
+				state = AIM;
+			}
+			
+		}
+		else
+		{
+			firingFlag = false;
+			state = IDLE;
+		}
 		break;
 	}
 		
@@ -92,25 +139,37 @@ void SmartTank::move()
 
 void SmartTank::reset()
 {
-	SetMoveTarget();
+	firingFlag = false;
+
+	for (auto it = eBaseLocations.begin(); it != eBaseLocations.end(); ++it)
+	{
+		updateWalls(*it);
+		std::cout << "Output 3: " << it->x << " " << it->y << std::endl;
+
+	}
+
+	if (!eBaseLocations.empty())
+	{
+		eBaseLocations.clear();
+	}
+
+	DemarkEnemy();
+	state = IDLE;
 }
 
 void SmartTank::collided()
 {
-	if (eBaseLocations.size() == 0)
-	{
-		std::cout << "hit building" << std::endl;
-		SetMoveTarget();
-	}
-	
+	SetMoveTarget();
 }
 
 void SmartTank::markEnemy(Position p)
 {
-	if (tankSpottedFlag == false)
+	eBaseCurrentTarget = sf::Vector2f(p.getX(), p.getY());
+
+	if (tankSpottedFlag == false && OutOfAmmo() == false)
 	{
+		std::cout << "tank vision" << std::endl;
 		clearMovement();
-		eBaseCurrentTarget = sf::Vector2f(p.getX(), p.getY());
 		state = AIM;
 		tankSpottedFlag = true;
 	}
@@ -146,6 +205,7 @@ void SmartTank::markShell(Position p)
 
 void SmartTank::markTarget(Position p)
 {
+	
 	bool match = false;
 
 	for (auto it = eBaseLocations.begin(); it != eBaseLocations.end(); ++it)
@@ -165,14 +225,15 @@ void SmartTank::markTarget(Position p)
 		SetCurrentPos();
 		m->updatePath(path, *current);
 
-		eBaseSpottedFlag = true;
-		clearMovement();
+		if (OutOfAmmo() == false)
+		{
+			eBaseSpottedFlag = true;
+			clearMovement();
 
-		float deltaX = p.getX() - getX();
-		float deltaY = p.getY() - getY(); 
-
-		state = TARGET_FOUND;
+			state = TARGET_FOUND;
+		}
 	}
+	
 	
 }
 
@@ -224,6 +285,7 @@ void SmartTank::DemarkEnemy()
 {
 	if (tankSpottedFlag == true)
 	{
+		std::cout << "lost tank" << std::endl;
 		firingFlag = false;
 		selectTarget();
 		tankSpottedFlag = false;
@@ -293,20 +355,20 @@ void SmartTank::SetMoveTarget()
 	firingFlag = false;
 	movementTargetFound = false;
 	SetCurrentPos();
-	path.clear();
 	std::cout << "commencing a*" << std::endl;
 
-	while (movementTargetFound == false)
+	while (movementTargetFound == false && path.size() < 2)
 	{
-		int randomX = rand() % 16 + 3;
-		int randomY = rand() % 13 + 3;
-		if (m->mapGrid[randomX][randomY]->isPath() == true)
+		path.clear();
+		int randomX = rand() % 24 + 1;
+		int randomY = rand() % 17 + 1;
+		if (m->mapGrid[randomY][randomX]->isPath() == true)
 		{
-			movementTargetFound = m->Astar(path, *current, *m->mapGrid[randomX][randomY]);
+			movementTargetFound = m->Astar(path, *current, *m->mapGrid[randomY][randomX]);
 		}
 	}
 
-	std::cout << "completed a*" << std::endl;
+	std::cout << "completed a*. path size: " << path.size() << std::endl;
 	state = MOVE;
 	RotationAngle();
 }
@@ -314,9 +376,9 @@ void SmartTank::SetMoveTarget()
 void SmartTank::SetCurrentPos()
 {
 	const int xwidth = 780;
-	const int xheight = 570;
-	float x = getX() - 17.5f;
-	float y = getY() - 17.5f;
+	const int yheight = 570;
+	float x = getX();
+	float y = getY();
 	int nodeSize = xwidth / 26;
 	int mx = (x / nodeSize);
 	int my = (y / nodeSize);
@@ -418,10 +480,7 @@ void SmartTank::selectTarget()
 			dis = tempDis;
 			eBaseCurrentTarget = eBaseLocations[i];
 		}
-		std::cout << eBaseLocations[i].x << " " << eBaseLocations[i].y << std::endl;
-		
 	}
-	std::cout << std::endl;
 	state = AIM;
 
 	if (eBaseLocations.size() == 0)
@@ -433,9 +492,19 @@ void SmartTank::selectTarget()
 		}
 		else
 		{
-			SetMoveTarget();
+			state = ROTATE_TURRET;
 		}
 	}
+}
+
+bool SmartTank::OutOfAmmo()
+{
+	if (getNumberOfShells() == 0)
+	{
+		state = MOVE;
+		return true;
+	}
+	return false;
 }
 
 void SmartTank::updateWalls(Position p)
@@ -451,4 +520,12 @@ void SmartTank::updateWalls(Position p)
 	{
 		m->notPath(it2->x, it2->y);
 	}
+
+	SetCurrentPos();
+	m->updatePath(path, *current);
+}
+
+void SmartTank::updateWalls(sf::Vector2f pos)
+{
+	m->setPath(pos.x, pos.y);
 }

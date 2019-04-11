@@ -36,13 +36,6 @@ Game::Game() // Constructor
 	redBuildings.push_back(Obstacle(dx,dy+40.f,dx+20.f,dy+60.f,sf::Color(170,60,60)));
 	redBuildings.push_back(Obstacle(dx+20.f,dy+40.f,dx+40.f,dy+60.f,sf::Color(170,40,40)));
 
-	//npc.m->notPath(dx, dy);
-	//npc.m->notPath(dx + 20, dy);
-	//npc.m->notPath(dx, dy + 20);
-	//npc.m->notPath(dx + 20, dy + 20);
-	//npc.m->notPath(dx, dy + 40);
-	//npc.m->notPath(dx + 20, dy + 40);
-
 	// Bottom right
 	dx = (float) (rand() % 340 + 400);
 	dy = (float) (rand() % 200 + 280);
@@ -52,11 +45,6 @@ Game::Game() // Constructor
 	redBuildings.push_back(Obstacle(dx,dy+20.f,dx+20.f,dy+40.f,sf::Color(170,40,40)));
 	redBuildings.push_back(Obstacle(dx+20.f,dy+20.f,dx+40.f,dy+40.f,sf::Color(170,60,60)));
 
-	//npc.m->notPath(dx, dy);
-	//npc.m->notPath(dx + 20, dy);
-	//npc.m->notPath(dx, dy + 20);
-	//npc.m->notPath(dx + 20, dy + 20);
-
 	// Top left
 	dx = (float) (rand() % 340 + 10);
 	dy = (float) (rand() % 200 + 10);
@@ -65,11 +53,6 @@ Game::Game() // Constructor
 	blueBuildings.push_back(Obstacle(dx+20,dy,dx+40,dy+20,sf::Color(40,40,170)));
 	blueBuildings.push_back(Obstacle(dx,dy+20,dx+20,dy+40,sf::Color(40,40,170)));
 	blueBuildings.push_back(Obstacle(dx+20,dy+20,dx+40,dy+40,sf::Color(60,60,170)));
-
-	//npc.m->notPath(dx, dy);
-	//npc.m->notPath(dx + 20, dy);
-	//npc.m->notPath(dx, dy + 20);
-	//npc.m->notPath(dx + 20, dy + 20);
 
 	// Bottom left
 	dx = (float) (rand() % 340 + 10);
@@ -81,13 +64,6 @@ Game::Game() // Constructor
 	blueBuildings.push_back(Obstacle(dx+20,dy+20,dx+40,dy+40,sf::Color(60,60,170)));
 	blueBuildings.push_back(Obstacle(dx,dy+40,dx+20,dy+60,sf::Color(60,60,170)));
 	blueBuildings.push_back(Obstacle(dx+20,dy+40,dx+40,dy+60,sf::Color(40,40,170)));
-
-	//npc.m->notPath(dx, dy);
-	//npc.m->notPath(dx + 20, dy);
-	//npc.m->notPath(dx, dy + 20);
-	//npc.m->notPath(dx + 20, dy + 20);
-	//npc.m->notPath(dx, dy + 40);
-	//npc.m->notPath(dx + 20, dy + 40);
 
 	resetNpc();
 	resetPlayer();
@@ -290,7 +266,7 @@ void Game::play()// Play the game for one timestep
 	    {
 		  if(it->bb.collision(it2->bb))
 		  {
-			  std::cout << "hit edge" << std::endl;
+			std::cout << "hit edge" << std::endl;
 			shells.erase(it2);
 			break;
 		  }

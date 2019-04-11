@@ -60,7 +60,24 @@ void Map::updatePath(std::list<Node>& path, Node curr)
 {
 	if (!path.empty())
 	{
-		if (mapGrid[path.back().getRow()][path.back().getColumn()]->isPath() == true)
+		if (path.back().getRow() == curr.getRow() && path.back().getColumn() == curr.getColumn())
+		{
+			std::cout << "finding new pos" << std::endl;
+
+			bool movementTargetFound = false;
+			while (movementTargetFound == false)
+			{
+				int randomX = rand() % 24 + 1;
+				int randomY = rand() % 17 + 1;
+				if (mapGrid[randomY][randomX]->isPath() == true)
+				{
+					movementTargetFound = Astar(path, curr, *mapGrid[randomY][randomX]);
+				}
+			}
+
+		}
+
+		else if (mapGrid[path.back().getRow()][path.back().getColumn()]->isPath() == true)
 		{
 			Node s = curr;
 			Node g = path.back();
@@ -73,11 +90,11 @@ void Map::updatePath(std::list<Node>& path, Node curr)
 			bool movementTargetFound = false;
 			while (movementTargetFound == false)
 			{
-				int randomX = rand() % 16 + 3;
-				int randomY = rand() % 13 + 3;
-				if (mapGrid[randomX][randomY]->isPath() == true)
+				int randomX = rand() % 24 + 1;
+				int randomY = rand() % 17 + 1;
+				if (mapGrid[randomY][randomX]->isPath() == true)
 				{
-					movementTargetFound = Astar(path, curr, *mapGrid[randomX][randomY]);
+					movementTargetFound = Astar(path, curr, *mapGrid[randomY][randomX]);
 				}
 			}
 		}
@@ -229,11 +246,18 @@ std::list<Node> Map::constructPath(std::list<Node>& path, std::list<Node>& close
 	path.push_front(*current);
 	closed.pop_back();
 
-	for (iter = closed.end(), iter--; iter != closed.begin(); --iter)
+	if (closed.size() > 1)
 	{
-		path.push_front(*iter);
-		closed.erase(iter);
-		iter = closed.end();
+		for (iter = closed.end(), iter--; iter != closed.begin(); --iter)
+		{
+			path.push_front(*iter);
+			closed.erase(iter);
+			iter = closed.end();
+		}
+	}
+	else
+	{
+		path.empty();
 	}
 
 	return path;
