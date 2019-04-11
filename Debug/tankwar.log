@@ -1,48 +1,15 @@
-﻿  Map.cpp
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\map.cpp(186): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\map.cpp(222): warning C4018: '<': signed/unsigned mismatch
-  SmartTank.cpp
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(52): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+﻿  Node.cpp
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\node.cpp(17): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(196): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(224): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(383): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(384): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(439): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\node.cpp(18): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\node.cpp(19): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
           [
               T=float
           ]
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(471): warning C4018: '<': signed/unsigned mismatch
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(512): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(516): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(521): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\smarttank.cpp(530): warning C4244: 'argument': conversion from 'T' to 'int', possible loss of data
-          with
-          [
-              T=float
-          ]
-  game.cpp
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(502): warning C4474: 'sprintf_s' : too many arguments passed for format string
-  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(502): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(509): warning C4474: 'sprintf_s' : too many arguments passed for format string
-  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(509): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(514): warning C4474: 'sprintf_s' : too many arguments passed for format string
-  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(514): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(519): warning C4474: 'sprintf_s' : too many arguments passed for format string
-  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(519): note: placeholders and their parameters expect 0 variadic arguments, but 1 were provided
-c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\game.cpp(489): warning C4996: 'sf::Text::setColor': was declared deprecated
-  c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\sfml-2.4.1\include\sfml\graphics\text.hpp(177): note: see declaration of 'sf::Text::setColor'
-  Generating Code...
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\node.cpp(150): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\hyperbook\desktop\studies\2nd year\2nd term\ai\cw\src\node.cpp(151): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   tankwar.vcxproj -> C:\Users\hyperbook\Desktop\Studies\2nd Year\2nd term\AI\CW\Debug\tankwar.exe

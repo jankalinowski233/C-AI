@@ -111,7 +111,7 @@ void Node::setPath()
 
 void Node::setGoal()
 {
-	shape.setFillColor(sf::Color(255, 0, 0, 100));
+	shape.setFillColor(sf::Color(0, 255, 0, 100));
 }
 
 void Node::setCurrent(bool cont)
@@ -128,12 +128,12 @@ void Node::setCurrent(bool cont)
 
 void Node::setOpen()
 {
-	shape.setFillColor(sf::Color(255, 255, 255, 100));
+	shape.setFillColor(sf::Color(0, 255, 255, 100));
 }
 
 void Node::setClosed()
 {
-	shape.setFillColor(sf::Color(255, 255, 0, 100));
+	shape.setFillColor(sf::Color(255, 0, 0, 100));
 }
 
 void Node::drawNode(sf::RenderTarget & target) const
