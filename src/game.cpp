@@ -301,8 +301,7 @@ void Game::play()// Play the game for one timestep
 			if(it->bb.collision(it2->bb) && (it2->couldSeeWhenFired(it->bb) || it->isVisible()) )
 			{
 				//reset previously occupied field to be available to walk on
-				//npc.m->setPath(it->bb.getX1(), it->bb.getY1());
-				npc.DeleteBase(Position((it->bb.getX1() + it->bb.getX2()) / 2.0f, (it->bb.getY1() + it->bb.getY2()) / 2.0f));
+				npc.DeleteBase(Position((it->bb.getX1() + it->bb.getX2()) / 2.0f, (it->bb.getY1() + it->bb.getY2()) / 2.0f)); //delete base from a vector stored in NPC
 				std::cout << "hit red building" << std::endl;
 				shells.erase(it2);
 				redBuildings.erase(it);
@@ -328,7 +327,6 @@ void Game::play()// Play the game for one timestep
 			if(it->bb.collision(it2->bb) && (it2->couldSeeWhenFired(it->bb) || it->isVisible()))
 			{
 				//reset previously occupied field to be available to walk on
-				//npc.m->setPath(it->bb.getX1(), it->bb.getY1());
 				std::cout << "hit blue building" << std::endl;
 				shells.erase(it2);
 				//delete base from a vector stored in NPC

@@ -30,16 +30,16 @@ private:
 
 public:
 	Map();
-	void notPath(int x, int y); //look for obstacles
-	void setPath(int x, int y);
-	void clearVisual();
-	void updatePath(std::list<Node>& path, Node curr);
-	void draw(sf::RenderTarget &target) const; //draw stuff
-	bool Astar(std::list<Node>& path, Node s, Node g); //a star 
-	std::vector<Node*> getNeighbour(Node* n); //returns neighbours of a node
-	std::list<Node> constructPath(std::list<Node>& path, std::list<Node>& closed, Node *n); //constructs the path
+	void notPath(int x, int y); //!< Look for obstacles
+	void setPath(int x, int y); //!< Set the nodes to be possible path
+	void clearVisual(); //!< Clear colours
+	void updatePath(std::list<Node>& path, Node curr); //!< Update current path
+	void draw(sf::RenderTarget &target) const; //!< Draw stuff
+	bool Astar(std::list<Node>& path, Node s, Node g); //!< A* 
+	std::vector<Node*> getNeighbour(Node* n); //!< Returns neighbours of a node
+	std::list<Node> constructPath(std::list<Node>& path, std::list<Node>& closed, Node *n); //!< Constructs the path
 
-	Node* mapGrid[rows][columns]; //array to represent nodes
+	Node* mapGrid[rows][columns]; //!< Array to represent nodes
 
 	~Map();
 };
