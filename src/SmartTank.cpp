@@ -431,6 +431,8 @@ void SmartTank::SetMoveTarget()
 	movementTargetFound = false;
 	//mark current tank's position
 	SetCurrentPos();
+	//reset the path
+	path.clear();
 	std::cout << "commencing a*" << std::endl;
 
 	//look for new destination and make sure it's big enough
